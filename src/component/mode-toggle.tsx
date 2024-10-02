@@ -1,5 +1,5 @@
 import { Icon } from "@iconify/react";
-import { FunctionComponent, useEffect, useState } from "react";
+import { FunctionComponent, useState } from "react";
 
 interface ModeToggleProps {
   dark: boolean;
