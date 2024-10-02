@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Hides scrollbar in IE and Edge */
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 0; /* Hides the scrollbar */
+  background: transparent; /* Ensures the background is transparent */
+  display: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.5); /* Custom color for scrollbar thumb */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.scrollbar-hide::-webkit-scrollbar-track {
+  background: transparent; /* Custom track color */
+}
