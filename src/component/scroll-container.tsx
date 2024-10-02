@@ -1,5 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useRef, useEffect, useState, HTMLProps } from "react";
+import { twMerge } from "tailwind-merge";
 
 function ScrollableContainer(props: HTMLProps<HTMLDivElement>) {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -7,9 +8,18 @@ function ScrollableContainer(props: HTMLProps<HTMLDivElement>) {
 
   const handleScroll = () => {
     if (containerRef.current) {
-      const { scrollHeight, clientHeight, scrollTop } = containerRef.current; // Get scrollTop
-      console.log(scrollHeight, clientHeight, scrollTop);
-      setHasMore(scrollHeight > clientHeight + scrollTop); // Updated condition
+      const { scrollHeight, clientHeight, scrollTop } = containerRef.current;
+      setHasMore(scrollHeight > clientHeight + scrollTop);
+    }
+  };
+
+  const handleClick = () => {
+    if (containerRef.current) {
+      const { scrollHeight, clientHeight } = containerRef.current;
+      containerRef.current.scrollTo({
+        top: scrollHeight - clientHeight,
+        behavior: "smooth",
+      });
     }
   };
 
@@ -26,13 +36,19 @@ function ScrollableContainer(props: HTMLProps<HTMLDivElement>) {
     <div
       {...props}
       ref={containerRef}
-      className={`scrollbar-hide overflow-auto ${props?.className}`}>
+      className={twMerge(`scrollbar-hide overflow-auto`, props?.className)}>
       {props.children}
       {hasMore && (
-        <div className="absolute bottom-2 right-2 shadow-white shadow-sm bg-gray-900  rounded-lg px-2 py-0.5 flex items-center gap-2">
+        <button
+          onClick={handleClick}
+          className={twMerge(
+            "absolute bottom-2 right-2 rounded-lg px-2 py-0.5",
+            "shadow-sm dark:shadow-white dark:bg-gray-900 shadow-black bg-gray-200  ",
+            "flex items-center gap-2"
+          )}>
           more
           <Icon icon="mdi:chevron-down" />
-        </div>
+        </button>
       )}
     </div>
   );
