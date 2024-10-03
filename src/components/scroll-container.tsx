@@ -11,7 +11,6 @@ function ScrollableContainer(props: ScrollAreaPrimitive.ScrollAreaProps) {
   const handleScroll = () => {
     if (containerRef.current) {
       const { scrollHeight, clientHeight, scrollTop } = containerRef.current;
-      console.log(scrollHeight, clientHeight, scrollTop);
       setHasMore(scrollHeight > clientHeight + scrollTop);
     }
   };

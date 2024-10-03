@@ -17,6 +17,8 @@
 // <Icon icon="noto-v1:aries" />
 // <Icon icon="fluent-emoji-flat:crossed-fingers" />
 
+import { listIcons } from "@iconify/react/dist/iconify.js";
+
 export const icons = [
   "oui",
   "raphael",
@@ -37,3 +39,7 @@ export const icons = [
   "noto-v1",
   "fluent-emoji-flat",
 ];
+
+const iconsList = listIcons();
+console.log(iconsList);
+console.log(iconsList.length);

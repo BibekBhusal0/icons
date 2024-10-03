@@ -1,4 +1,4 @@
-import Grid from "./component/grid";
+import Grid from "./components/grid";
 import { twMerge } from "tailwind-merge";
 import ThemeSwitch from "@/theme/switch";
 

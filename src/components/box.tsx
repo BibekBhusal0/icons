@@ -1,4 +1,4 @@
-import { Icon } from "@iconify/react";
+import { Icon, listIcons } from "@iconify/react";
 import { LoremIpsum } from "lorem-ipsum";
 import { useState } from "react";
 import ScrollableContainer from "./scroll-container";
@@ -11,6 +11,11 @@ const contentGenerator = new LoremIpsum({
 const titleGenerator = new LoremIpsum({ wordsPerSentence: { max: 4, min: 1 } });
 export const boxClasses =
   "h-80 relative shadow-md shadow-gray-600 rounded-2xl border-green-400 border-2 p-4 rounded-2xl";
+
+const iconsList = listIcons();
+console.log(iconsList);
+console.log(iconsList.length);
+
 function Box({
   icon,
   setIcon,
