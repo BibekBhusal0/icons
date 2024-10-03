@@ -49,7 +49,7 @@ function ScrollableContainer(props: ScrollAreaPrimitive.ScrollAreaProps) {
             "flex items-center gap-2"
           )}>
           more
-          <Icon icon="mdi:chevron-down" />
+          <Icon icon="mingcute:up-line" rotate={90} />
         </button>
       )}
     </ScrollArea>

@@ -24,7 +24,6 @@ function Box(props: SelectIconProps) {
           <PopoverTrigger>
             <Icon className="text-4xl" icon={props.icon} />
             <PopoverContent>
-              {" "}
               <SelectIcon {...props} />
             </PopoverContent>
           </PopoverTrigger>
