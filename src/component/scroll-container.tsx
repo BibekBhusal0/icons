@@ -1,14 +1,17 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { useRef, useEffect, useState, HTMLProps } from "react";
+import { useRef, useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 
-function ScrollableContainer(props: HTMLProps<HTMLDivElement>) {
+function ScrollableContainer(props: ScrollAreaPrimitive.ScrollAreaProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hasMore, setHasMore] = useState(false);
 
   const handleScroll = () => {
     if (containerRef.current) {
       const { scrollHeight, clientHeight, scrollTop } = containerRef.current;
+      console.log(scrollHeight, clientHeight, scrollTop);
       setHasMore(scrollHeight > clientHeight + scrollTop);
     }
   };
@@ -33,10 +36,10 @@ function ScrollableContainer(props: HTMLProps<HTMLDivElement>) {
   }, [props.children]);
 
   return (
-    <div
+    <ScrollArea
       {...props}
       ref={containerRef}
-      className={twMerge(`scrollbar-hide overflow-auto`, props?.className)}>
+      className={twMerge(`overflow-auto`, props?.className)}>
       {props.children}
       {hasMore && (
         <button
@@ -50,7 +53,7 @@ function ScrollableContainer(props: HTMLProps<HTMLDivElement>) {
           <Icon icon="mdi:chevron-down" />
         </button>
       )}
-    </div>
+    </ScrollArea>
   );
 }
 

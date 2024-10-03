@@ -7,9 +7,18 @@ function Grid() {
   const initialIcon = "mdi-light:home";
   const [icons, setIcons] = useState([initialIcon, initialIcon]);
   return (
-    <div className="size-full overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+    <div className="w-full py-4 overflow-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       {icons.map((icon, i) => (
-        <Box key={i} icon={icon} />
+        <Box
+          key={i}
+          icon={icon}
+          setIcon={(newIcon: string) =>
+            setIcons((prevState) => {
+              prevState[i] = newIcon;
+              return [...prevState];
+            })
+          }
+        />
       ))}
       <button
         onClick={() => setIcons([...icons, initialIcon])}

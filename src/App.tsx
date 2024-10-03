@@ -4,7 +4,7 @@ import ThemeSwitch from "@/theme/switch";
 
 function App() {
   return (
-    <div className={twMerge("size-full p-2 overflow-auto h-screen")}>
+    <div className={twMerge("size-full p-2 h-screen")}>
       <div className="w-full p-3">
         <ThemeSwitch />
       </div>

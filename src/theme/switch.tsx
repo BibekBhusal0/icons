@@ -10,7 +10,7 @@ const ThemeSwitch: FunctionComponent = () => {
   );
   const handleClick = () => {
     if (dark) {
-      setIcon("line-md:moon-filled-to-sunny-filled-loop-transition");
+      setIcon("line-md:moon-filled-alt-to-sunny-filled-loop-transition");
     } else {
       setIcon("line-md:sunny-filled-loop-to-moon-filled-loop-transition");
     }
