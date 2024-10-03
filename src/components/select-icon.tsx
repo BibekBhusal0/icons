@@ -9,33 +9,13 @@ import {
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
 import type { IconifyInfo, IconifyJSON } from "@iconify/types";
-import IconsGrid from "./icon-grid";
+import { IconsGridPagination } from "./icon-grid";
+import { iconPackNames, IconPacks } from "@/icons";
 
 export interface SelectIconProps {
   icon: string;
   setIcon: (icon: string) => void;
 }
-
-export const iconPacks = [
-  "oui",
-  "raphael",
-  "flat-color-icons",
-  "eva",
-  "fe",
-  "gridicons",
-  "maki",
-  "zondicons",
-  "el",
-  "mingcute",
-  "tdesign",
-  "material-symbols",
-  "ic",
-  "hugeicons",
-  "jam",
-  "noto",
-  "noto-v1",
-  "fluent-emoji-flat",
-];
 
 const SelectIcon: FunctionComponent<SelectIconProps> = ({
   icon,
@@ -44,11 +24,9 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
   const [currentMode, setCurrentMode] = useState("Loaded");
   const [selected, setSelected] = useState(icon);
   const [iconsList, setIconsList] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchIcons = async () => {
-      setLoading(true);
       try {
         const response = await fetch(
           `https://api.iconify.design/collection?prefix=${currentMode}`
@@ -87,8 +65,6 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
         setIconsList(formattedIcons);
       } catch (error) {
         console.error("Error fetching icons:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -109,7 +85,7 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
           currentMode={currentMode}
           setCurrentMode={setCurrentMode}
         />
-        <IconsGrid
+        <IconsGridPagination
           iconsList={iconsList}
           selected={selected}
           setSelected={setSelected}
@@ -133,10 +109,10 @@ function SelectIconType({
     <Select value={currentMode} onValueChange={setCurrentMode}>
       <SelectTrigger>
         <SelectValue placeholder={"Icon pack"} />
-        <SelectContent>
+        <SelectContent className="h-52">
           <SelectItem value="Loaded">Loaded</SelectItem>
-          {iconPacks.map((pack: string) => (
-            <SelectItem value={pack}>{pack}</SelectItem>
+          {IconPacks.map((pack: string) => (
+            <SelectItem value={pack}>{iconPackNames[pack] || pack}</SelectItem>
           ))}
         </SelectContent>
       </SelectTrigger>
