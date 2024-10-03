@@ -30,7 +30,7 @@ function Box(props: SelectIconProps) {
         </Popover>
         <h1 className="text-2xl">{title}</h1>
       </div>
-      <ScrollableContainer className="text-xl h-80">
+      <ScrollableContainer className="text-xl ">
         {paragraph.split("\n").map((para, index) => (
           <p key={index} className="mt-2">
             {para}

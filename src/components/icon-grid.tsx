@@ -22,10 +22,10 @@ export function IconsGridPagination({ ...props }: iconGridProps) {
     const end = start + iconsPerPage;
     return props.iconsList.slice(start, end);
   };
-  if (pages === 1) return <IconsGrid {...props} />;
   useEffect(() => {
     setPage(1);
   }, [props.iconsList]);
+  if (pages <= 1) return <IconsGrid {...props} />;
   return (
     <>
       <IconsGrid {...props} iconsList={getPageContent(page)} />

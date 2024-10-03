@@ -1,5 +1,10 @@
 import { listIcons } from "@iconify/react/dist/iconify.js";
-import { FunctionComponent, useEffect, useState } from "react";
+import {
+  FunctionComponent,
+  useDeferredValue,
+  useEffect,
+  useState,
+} from "react";
 import {
   Select,
   SelectContent,
@@ -11,6 +16,7 @@ import { Button } from "./ui/button";
 import type { IconifyInfo, IconifyJSON } from "@iconify/types";
 import { IconsGridPagination } from "./icon-grid";
 import { iconPackNames, IconPacks } from "@/icons";
+import { Input } from "./ui/input";
 
 export interface SelectIconProps {
   icon: string;
@@ -24,6 +30,8 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
   const [currentMode, setCurrentMode] = useState("Loaded");
   const [selected, setSelected] = useState(icon);
   const [iconsList, setIconsList] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const deferredSearchTerm = useDeferredValue(searchTerm);
 
   useEffect(() => {
     const fetchIcons = async () => {
@@ -70,8 +78,30 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
 
     if (currentMode === "Loaded") {
       setIconsList(listIcons());
-    } else fetchIcons();
+    } else if (currentMode !== "Search") fetchIcons();
   }, [currentMode]);
+
+  useEffect(() => {
+    const search = async () => {
+      try {
+        const response = await fetch(
+          `https://api.iconify.design/search?query=${deferredSearchTerm}&limit=999`
+        );
+        if (!response.ok || !response || response.status !== 200) {
+          return;
+        }
+        const data: APISearchResponse = await response.json();
+        setIconsList(data.icons);
+      } catch (error) {
+        console.error("Error searching icons:", error);
+      }
+    };
+    if (currentMode === "Search") {
+      if (deferredSearchTerm.trim().length === 0) setIconsList([]);
+      else search();
+    }
+  }, [currentMode, deferredSearchTerm]);
+
   return (
     <div className="size-full flex flex-col items-center gap-3">
       <div
@@ -85,6 +115,14 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
           currentMode={currentMode}
           setCurrentMode={setCurrentMode}
         />
+        {currentMode === "Search" && (
+          <Input
+            autoFocus
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search Icon"
+          />
+        )}
         <IconsGridPagination
           iconsList={iconsList}
           selected={selected}
@@ -111,8 +149,11 @@ function SelectIconType({
         <SelectValue placeholder={"Icon pack"} />
         <SelectContent className="h-52">
           <SelectItem value="Loaded">Loaded</SelectItem>
+          <SelectItem value="Search">Search</SelectItem>
           {IconPacks.map((pack: string) => (
-            <SelectItem value={pack}>{iconPackNames[pack] || pack}</SelectItem>
+            <SelectItem key={pack} value={pack}>
+              {iconPackNames[pack] || pack}
+            </SelectItem>
           ))}
         </SelectContent>
       </SelectTrigger>
@@ -133,4 +174,7 @@ export interface APIv2CollectionResponse {
   themes?: IconifyJSON["themes"];
   prefixes?: IconifyJSON["prefixes"];
   suffixes?: IconifyJSON["suffixes"];
+}
+export interface APISearchResponse {
+  icons: string[];
 }
