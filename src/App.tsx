@@ -1,6 +1,7 @@
 import Grid from "./components/grid";
 import { twMerge } from "tailwind-merge";
 import ThemeSwitch from "@/theme/switch";
+import SelectedIconTable from "./components/selected-icon-table";
 
 function App() {
   return (
@@ -9,6 +10,7 @@ function App() {
         <ThemeSwitch />
       </div>
       <Grid />
+      <SelectedIconTable />
     </div>
   );
 }
