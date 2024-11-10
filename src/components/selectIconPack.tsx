@@ -145,8 +145,8 @@ function IconSelect({ icon, prefix, setSelectedIcon, title }: selectIconProps) {
             key={i}
             icon={ThisIcon}
             className={cn(
-              "size-10 inline-block cursor-pointer",
-              ThisIcon === icon && "border-2 border-primary"
+              "size-10 m-1 p-1 inline-block cursor-pointer border-2 border-transparent transition-all",
+              ThisIcon === icon && "border-primary bg-green-500 bg-opacity-40"
             )}
             onClick={() => setSelectedIcon(ThisIcon)}
           />
