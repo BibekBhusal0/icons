@@ -1,6 +1,9 @@
-import { requierd_icons, SelectedIcons } from "@/icons-name";
-import { iconPackNames } from "@/icons";
-import { Icon } from "@iconify/react";
+import {
+  Icon2RN,
+  iconPackNames,
+  requiredIcons,
+  SelectedIconPacks,
+} from "@/icons";
 import { cn } from "@/lib/utils";
 
 function SelectedIconTable() {
@@ -12,7 +15,7 @@ function SelectedIconTable() {
       <thead>
         <tr>
           <th className={cn(border, cellPadding)}>Icon Name</th>
-          {Object.keys(SelectedIcons).map((key) => (
+          {Object.keys(SelectedIconPacks).map((key) => (
             <th key={key} className={cn(border, cellPadding)}>
               {iconPackNames[key] || key}
             </th>
@@ -20,21 +23,17 @@ function SelectedIconTable() {
         </tr>
       </thead>
       <tbody>
-        {requierd_icons.map((RequiredIcon) => (
+        {requiredIcons.map((RequiredIcon) => (
           <tr key={RequiredIcon}>
             <td className={cn(border, cellPadding)}>{RequiredIcon}</td>
-            {Object.entries(SelectedIcons).map(([key, value]) => {
+            {Object.entries(SelectedIconPacks).map(([key, value]) => {
               const icon = value[RequiredIcon];
               return (
                 <td className={cn(border, cellPadding, "text-3xl")} key={key}>
                   <div className="flex-center w-full">
-                    {icon ? (
-                      typeof icon === "string" ? (
-                        <Icon icon={`${key}:${icon}`} />
-                      ) : (
-                        icon
-                      )
-                    ) : null}
+                    <Icon2RN
+                      icon={typeof icon === "string" ? `${key}:${icon}` : icon}
+                    />
                   </div>
                 </td>
               );

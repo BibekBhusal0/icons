@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 import { ScrollArea } from "./ui/scroll-area";
 import { useEffect, useState } from "react";
-import { Pagination, PaginationContent, PaginationItem } from "./ui/pagination";
 
 interface iconGridProps {
   iconsList: string[];
@@ -30,30 +29,24 @@ export function IconsGridPagination({ ...props }: iconGridProps) {
     <>
       <IconsGrid {...props} iconsList={getPageContent(page)} />
       Page {page} out of {pages}
-      <Pagination>
-        <PaginationContent>
-          <PaginationItem>
-            <Button
-              disabled={page === 1}
-              className="flex items-center justify-center gap-2"
-              variant="outline"
-              onClick={() => setPage(page - 1)}>
-              <Icon icon="mingcute:up-line" rotate={135} className="size-4" />
-              <div className="text-xl">Previous</div>
-            </Button>
-          </PaginationItem>
-          <PaginationItem>
-            <Button
-              disabled={page === pages}
-              className="flex items-center justify-center gap-2"
-              variant="outline"
-              onClick={() => setPage(page + 1)}>
-              <div className="text-xl">Next</div>
-              <Icon icon="mingcute:up-line" rotate={45} className="size-4" />
-            </Button>
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <div className="flex items-center justify-center gap-4">
+        <Button
+          disabled={page === 1}
+          className="flex items-center justify-center gap-2"
+          variant="outline"
+          onClick={() => setPage(page - 1)}>
+          <Icon icon="mingcute:up-line" rotate={135} className="size-4" />
+          <div className="text-xl">Previous</div>
+        </Button>
+        <Button
+          disabled={page === pages}
+          className="flex items-center justify-center gap-2"
+          variant="outline"
+          onClick={() => setPage(page + 1)}>
+          <div className="text-xl">Next</div>
+          <Icon icon="mingcute:up-line" rotate={45} className="size-4" />
+        </Button>
+      </div>
     </>
   );
 }
