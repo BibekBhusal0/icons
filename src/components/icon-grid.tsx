@@ -32,7 +32,6 @@ export function IconsGridPagination({ ...props }: iconGridProps) {
       <div className="flex items-center justify-center gap-4">
         <Button
           disabled={page === 1}
-          className="flex items-center justify-center gap-2"
           variant="outline"
           onClick={() => setPage(page - 1)}>
           <Icon icon="mingcute:up-line" rotate={135} className="size-4" />

@@ -1,8 +1,49 @@
 import { Icon, IconifyIcon, IconProps } from "@iconify/react";
 import { ReactNode } from "react";
+import type { IconifyInfo, IconifyJSON } from "@iconify/types";
 
 export type iconAsProp = IconifyIcon | ReactNode;
 export type iconRN = Record<allRequiredIcons, ReactNode>;
+
+export interface APIv2CollectionResponse {
+  prefix: string;
+  total: number;
+  title?: string;
+  info?: IconifyInfo;
+  uncategorized?: string[];
+  categories?: Record<string, string[]>;
+  hidden?: string[];
+  aliases?: Record<string, string>;
+  chars?: Record<string, string>;
+  themes?: IconifyJSON["themes"];
+  prefixes?: IconifyJSON["prefixes"];
+  suffixes?: IconifyJSON["suffixes"];
+}
+export interface APISearchResponse {
+  icons: string[];
+}
+
+export const searchIcons = async (
+  searchTerm: string,
+  limit = 999,
+  prefix = ""
+): Promise<string[]> => {
+  try {
+    const response = await fetch(
+      `https://api.iconify.design/search?query=${searchTerm}&limit=${limit}${
+        prefix.trim() !== "" ? `&prefix=${prefix}` : ""
+      }`
+    );
+    if (!response.ok || response.status !== 200) {
+      throw new Error(`Failed to search icons. Status: ${response.status}`);
+    }
+    const data: APISearchResponse = await response.json();
+    return data.icons;
+  } catch (error) {
+    console.error("Error searching icons:", error);
+    return [];
+  }
+};
 
 export function Icon2RN({
   icon,
@@ -67,6 +108,28 @@ export function transformIcons<T extends Partial<iconData>>(
 
   return transformed as T extends iconData ? iconRN : Partial<iconRN>;
 }
+
+export const keyWords: Record<allRequiredIcons, string[]> = {
+  settings: ["cog", "gear", "wrench", "tool"],
+  widget: ["app", "grid"],
+  lock: [],
+  unlock: ["lock"],
+  habitTracker: ["calendar", "habit"],
+  pin: [],
+  sort: ["arrow"],
+  checklist: ["list", "todo", "task"],
+  space: ["planet", "rocket", "compass"],
+  bookmark: ["heart", "star", "link"],
+  reset: ["refresh", "loop", "sync"],
+  edit: ["edit", "pencil", "change"],
+  delete_: ["delete", "trash", "erase", "remove", "clear"],
+  menu: ["hamburger"],
+  show: ["eye", "visible", "see", "view"],
+  hide: ["eye", "visible", "view"],
+  add: ["plus", "create"],
+  note: ["pencil", "write", "paper", "book"],
+  search: ["glass", "look", "find"],
+};
 
 const solar_bold: Partial<iconRN> = {
   settings: "settings-bold",

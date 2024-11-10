@@ -1,17 +1,15 @@
-import Grid from "./components/grid";
-import { twMerge } from "tailwind-merge";
 import ThemeSwitch from "@/theme/switch";
-import SelectedIconTable from "./components/selected-icon-table";
+import { SelectIconPackPage } from "./components/selectIconPack";
+import { ScrollArea } from "./components/ui/scroll-area";
 
 function App() {
   return (
-    <div className={twMerge("size-full p-2 h-screen")}>
+    <ScrollArea className="size-full p-2 h-screen">
       <div className="w-full p-3 flex gap-4">
         <ThemeSwitch />
       </div>
-      <Grid />
-      <SelectedIconTable />
-    </div>
+      <SelectIconPackPage />
+    </ScrollArea>
   );
 }
 

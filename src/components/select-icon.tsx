@@ -13,9 +13,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "./ui/button";
-import type { IconifyInfo, IconifyJSON } from "@iconify/types";
 import { IconsGridPagination } from "./icon-grid";
-import { iconPackNames, IconPacks } from "@/icons";
+import {
+  APIv2CollectionResponse,
+  iconPackNames,
+  IconPacks,
+  searchIcons,
+} from "@/icons";
 import { Input } from "./ui/input";
 
 export interface SelectIconProps {
@@ -39,13 +43,9 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
         const response = await fetch(
           `https://api.iconify.design/collection?prefix=${currentMode}`
         );
-
-        if (!response.ok || !response || response.status !== 200) {
-          return;
-        }
+        if (!response.ok || !response || response.status !== 200) return;
 
         const data: APIv2CollectionResponse = await response.json();
-
         const formattedIcons: string[] = [];
 
         if (data.categories) {
@@ -83,18 +83,8 @@ const SelectIcon: FunctionComponent<SelectIconProps> = ({
 
   useEffect(() => {
     const search = async () => {
-      try {
-        const response = await fetch(
-          `https://api.iconify.design/search?query=${deferredSearchTerm}&limit=999`
-        );
-        if (!response.ok || !response || response.status !== 200) {
-          return;
-        }
-        const data: APISearchResponse = await response.json();
-        setIconsList(data.icons);
-      } catch (error) {
-        console.error("Error searching icons:", error);
-      }
+      const icons = await searchIcons(deferredSearchTerm);
+      setIconsList(icons);
     };
     if (currentMode === "Search") {
       if (deferredSearchTerm.trim().length === 0) setIconsList([]);
@@ -159,22 +149,4 @@ function SelectIconType({
       </SelectTrigger>
     </Select>
   );
-}
-
-export interface APIv2CollectionResponse {
-  prefix: string;
-  total: number;
-  title?: string;
-  info?: IconifyInfo;
-  uncategorized?: string[];
-  categories?: Record<string, string[]>;
-  hidden?: string[];
-  aliases?: Record<string, string>;
-  chars?: Record<string, string>;
-  themes?: IconifyJSON["themes"];
-  prefixes?: IconifyJSON["prefixes"];
-  suffixes?: IconifyJSON["suffixes"];
-}
-export interface APISearchResponse {
-  icons: string[];
 }

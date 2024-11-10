@@ -1,12 +1,13 @@
-import {
-  Icon2RN,
-  iconPackNames,
-  requiredIcons,
-  SelectedIconPacks,
-} from "@/icons";
+import { Icon2RN, iconData, iconPackNames, requiredIcons } from "@/icons";
 import { cn } from "@/lib/utils";
 
-function SelectedIconTable() {
+function SelectedIconTable({
+  SelectedIconPacks,
+  usePrefix = true,
+}: {
+  SelectedIconPacks: Record<string, Partial<iconData>>;
+  usePrefix?: boolean;
+}) {
   const border = "border border-green-800 dark:border-green-200";
   const cellPadding = "p-2";
 
@@ -32,7 +33,11 @@ function SelectedIconTable() {
                 <td className={cn(border, cellPadding, "text-3xl")} key={key}>
                   <div className="flex-center w-full">
                     <Icon2RN
-                      icon={typeof icon === "string" ? `${key}:${icon}` : icon}
+                      icon={
+                        typeof icon === "string" && usePrefix
+                          ? `${key}:${icon}`
+                          : icon
+                      }
                     />
                   </div>
                 </td>
